@@ -1,38 +1,34 @@
 import NewsApiService from './js/searchImages';
 import Notiflix from 'notiflix';
 
-
 const formEl = document.querySelector('#search-form');
 const galleryEl = document.querySelector('.gallery');
-const loadMoreBtnEl = document.querySelector('.load-more')
-loadMoreBtnEl.style.display = 'none'
+const loadMoreBtnEl = document.querySelector('.load-more');
+loadMoreBtnEl.style.display = 'none';
 
-const newApiService = new NewsApiService
-
+const newApiService = new NewsApiService();
 
 formEl.addEventListener('submit', onCreateImages);
-loadMoreBtnEl.addEventListener('click', onLoadMore)
+loadMoreBtnEl.addEventListener('click', onLoadMore);
 
-  async function onLoadMore() {
-   
-      loadMoreBtnEl.style.display = 'none'
-      const result = await newApiService.querySearchImages();
-     renderMurkUp(result)
+async function onLoadMore() {
+  loadMoreBtnEl.style.display = 'none';
+  const result = await newApiService.querySearchImages();
+  showTotalHits();
+  renderMurkUp(result);
 }
-
 
 async function onCreateImages(e) {
   e.preventDefault();
   galleryEl.innerHTML = '';
-    loadMoreBtnEl.style.display = 'none'
-     
-    
-    newApiService.query = e.target.elements.searchQuery.value.trim();
-     formEl.reset()
+  loadMoreBtnEl.style.display = 'none';
+
+  newApiService.query = e.target.elements.searchQuery.value.trim();
+  formEl.reset();
   if (!newApiService.query) return;
 
-    const result = await newApiService.querySearchImages();
-    newApiService.resetPage()
+  const result = await newApiService.querySearchImages();
+  newApiService.resetPage();
 
   if (result.hits.length === 0) {
     Notiflix.Notify.warning(
@@ -40,19 +36,24 @@ async function onCreateImages(e) {
     );
     return;
   }
-    renderMurkUp(result)
-  
-  
+  showTotalHits();
+  renderMurkUp(result);
+}
+
+function showTotalHits() {
+  Notiflix.Notify.success(`Hooray! We found ${newApiService.totalHits} images`);
 }
 
 function renderMurkUp(res) {
-     const murkUp = res.hits.map(res =>createMurkUp(res)).join('');
-    galleryEl.insertAdjacentHTML('beforeend', murkUp)
-    if (newApiService.TOTAL_PAGES === newApiService.page) {
-        Notiflix.Notify.info("We're sorry, but you've reached the end of search results.")
-          return
-      }
-    loadMoreBtnEl.removeAttribute("style")
+  const murkUp = res.hits.map(res => createMurkUp(res)).join('');
+  galleryEl.insertAdjacentHTML('beforeend', murkUp);
+  if (newApiService.TOTAL_PAGES === newApiService.page) {
+    Notiflix.Notify.info(
+      "We're sorry, but you've reached the end of search results."
+    );
+    return;
+  }
+  loadMoreBtnEl.removeAttribute('style');
 }
 
 function createMurkUp(data) {
