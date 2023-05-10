@@ -1,0 +1,66 @@
+.section-form{
+    display: block;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    background-color: #4D5AE5;
+    text-align: center;
+    margin-bottom: 20px;
+}
+.section-form input {
+    height: 40px ;
+    width: 300px;
+    border: none;
+    outline: none;
+    border-radius: 3px;
+}
+.section-form button{
+    width: 90px;
+    height: 44px;
+    outline: transparent;
+    border-radius: 3px;
+} 
+
+.gallery{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+   justify-content: center;
+   
+}
+.photo-card{
+
+border:  1px solid  #E7E9FC;
+ border-radius: 2px;
+box-shadow: 0px 1px 6px rgba(46, 47, 66, 0.08),
+        0px 1px 1px rgba(46, 47, 66, 0.16),
+        0px 2px 1px rgba(46, 47, 66, 0.08);
+}
+.info{
+    display: flex;
+
+  
+}
+.info-item{
+     display: flex;
+     flex-direction: column;
+      margin-left: auto;
+     margin-right: auto;
+     text-align: center;
+} 
+
+.load-more{
+   display: block;
+   margin-left: auto;
+   margin-right: auto;
+   margin-top: 20px;
+    color: #E7E9FC;
+    background-color: #4D5AE5;
+    font-weight: 500;
+    font-size: 16px;
+    letter-spacing: 0.04em;
+    line-height: 1.5;
+    padding: 16px 32px;
+    min-width: 169px;
+    min-height: 56px;
+    border-radius: 4px; 
+}
