@@ -13,9 +13,13 @@ loadMoreBtnEl.addEventListener('click', onLoadMore);
 
 async function onLoadMore() {
   loadMoreBtnEl.style.display = 'none';
-  const result = await newApiService.querySearchImages();
-  showTotalHits();
-  renderMurkUp(result);
+  try {
+    const result = await newApiService.querySearchImages();
+    showTotalHits();
+    renderMurkUp(result);
+  } catch {
+    Notiflix.Notify.failure('error');
+  }
 }
 
 async function onCreateImages(e) {
@@ -27,17 +31,23 @@ async function onCreateImages(e) {
   formEl.reset();
   if (!newApiService.query) return;
 
-  const result = await newApiService.querySearchImages();
-  newApiService.resetPage();
-
-  if (result.hits.length === 0) {
-    Notiflix.Notify.warning(
-      'Sorry, there are no images matching your search query. Please try again.'
-    );
-    return;
-  }
-  showTotalHits();
-  renderMurkUp(result);
+    newApiService.resetPage();
+    try {
+        const result = await newApiService.querySearchImages();
+      
+        if (result.hits.length === 0) {
+          Notiflix.Notify.warning(
+            'Sorry, there are no images matching your search query. Please try again.'
+          );
+          return;
+        }
+        showTotalHits();
+        renderMurkUp(result);
+        
+    }
+    catch {
+        Notiflix.Notify.failure('error');
+    }
 }
 
 function showTotalHits() {
@@ -47,7 +57,7 @@ function showTotalHits() {
 function renderMurkUp(res) {
   const murkUp = res.hits.map(res => createMurkUp(res)).join('');
   galleryEl.insertAdjacentHTML('beforeend', murkUp);
-  if (newApiService.TOTAL_PAGES === newApiService.page) {
+  if (newApiService.TOTAL_PAGES === newApiService.page - 1) {
     Notiflix.Notify.info(
       "We're sorry, but you've reached the end of search results."
     );
