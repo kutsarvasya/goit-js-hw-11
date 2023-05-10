@@ -25,7 +25,6 @@ export default class NewsApiService {
     const res = await axios.get(url);
       this.incrementPage();
       this.totalHits = res.data.totalHits
-      console.log(this.totalHits );
     this.TOTAL_PAGES = Math.ceil(this.totalHits / this.PER_PAGE);
     return res.data;
   }
